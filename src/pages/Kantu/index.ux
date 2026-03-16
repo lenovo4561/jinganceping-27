@@ -1,0 +1,171 @@
+<template>
+  <div class="page">
+    <list class="kantu-list">
+      <list-item type="header" class="kantu-header">
+        <image class="top-bg" src="../../assets/img/wodexunzhang-bg.png"></image>
+      </list-item>
+
+      <list-item type="grid" class="grid-section">
+        <div class="grid-card-container">
+          <div class="blur-layer"></div>
+          <div class="frost-overlay"></div>
+
+          <div class="grid-content">
+            <block for="{{kantuList}}">
+              <div class="grid-item" onclick="goToTest($item.id)">
+                <image class="item-img" src="{{$item.image}}"></image>
+                <text class="item-title">{{$item.title}}</text>
+                <div class="item-bottom">
+                  <image class="fire-icon" src="../../assets/img/Frame.png"></image>
+                  <text class="item-count">{{$item.count}}人测过</text>
+                </div>
+              </div>
+            </block>
+          </div>
+        </div>
+      </list-item>
+
+      <list-item type="spacer" class="bottom-spacer"></list-item>
+    </list>
+  </div>
+</template>
+
+<script>
+import router from '@system.router'
+export default {
+  data() {
+    return {
+      kantuList: [
+        { id: 1, title: '一张图测你的“内在能量类型”！', count: '8170', image: '../../assets/img/1.png' },
+        { id: 2, title: '从这张图你先注意到什么？', count: '8170', image: '../../assets/img/2.png' },
+        { id: 3, title: '超准视觉测评：图...藏着你的真实特质！', count: '8170', image: '../../assets/img/3.png' },
+        { id: 9, title: '这张雪景图：选心动处，测近期状态', count: '8170', image: '../../assets/img/3-1.png' },
+        { id: 4, title: '测测你的内在潜力', count: '6540', image: '../../assets/img/1.png' },
+        { id: 5, title: '你的性格底色是什么？', count: '4320', image: '../../assets/img/2.png' }
+      ]
+    }
+  },
+  goToTest(id) {
+    router.push({
+      uri: '/pages/KantuDetail',
+      params: {
+        id: String(id || 1)
+      }
+    })
+  }
+}
+</script>
+
+<style>
+.page {
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background-color: #f7f8f9;
+}
+
+.kantu-list {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.kantu-header {
+  width: 100%;
+  height: 140px;
+}
+
+.top-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.grid-section {
+  width: 100%;
+  padding: 0 10px;
+  margin-top: -44px;
+}
+
+.grid-card-container {
+  width: 100%;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.blur-layer {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  filter: blur(4px);
+}
+
+.frost-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 96px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.95), #ffffff);
+}
+
+.grid-content {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px 0 0 0;
+  position: relative;
+}
+
+.grid-item {
+  width: 48.3%;
+  flex-direction: column;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding-bottom: 10px;
+}
+
+.item-img {
+  width: 100%;
+  height: 128px;
+  object-fit: cover;
+  background-color: #dfe3e6;
+}
+
+.item-title {
+  font-size: 12px;
+  color: #2f3340;
+  font-weight: 600;
+  margin: 8px 8px 6px 8px;
+  lines: 2;
+  text-overflow: ellipsis;
+}
+
+.item-bottom {
+  flex-direction: row;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.fire-icon {
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+}
+
+.item-count {
+  font-size: 11px;
+  color: #9ba0a6;
+}
+
+.bottom-spacer {
+  width: 100%;
+  height: 72px;
+}
+</style>
