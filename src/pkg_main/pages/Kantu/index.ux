@@ -32,18 +32,23 @@
 
 <script>
 import router from '@system.router'
+import { imagePersonalityTest } from '../../helper/JS/tupianceshi'
 export default {
   data() {
     return {
-      kantuList: [
-        { id: 1, title: '一张图测你的“内在能量类型”！', count: '8170', image: '../../assets/img/1.png' },
-        { id: 2, title: '从这张图你先注意到什么？', count: '8170', image: '../../assets/img/2.png' },
-        { id: 3, title: '超准视觉测评：图...藏着你的真实特质！', count: '8170', image: '../../assets/img/3.png' },
-        { id: 9, title: '这张雪景图：选心动处，测近期状态', count: '8170', image: '../../assets/img/3-1.png' },
-        { id: 4, title: '测测你的内在潜力', count: '6540', image: '../../assets/img/1.png' },
-        { id: 5, title: '你的性格底色是什么？', count: '4320', image: '../../assets/img/2.png' }
-      ]
+      kantuList: []
     }
+  },
+  onInit() {
+    const list = (imagePersonalityTest && imagePersonalityTest.testList) || []
+    this.kantuList = list.map(function(item) {
+      return {
+        id: item.id,
+        title: item.name,
+        count: '8170',
+        image: '/pkg_main/assets/img/ktcp/' + String(item.id) + '.jpg'
+      }
+    })
   },
   goToTest(id) {
     router.push({
@@ -67,29 +72,29 @@ export default {
 
 .kantu-list {
   flex: 1;
-  width: 100%;
+  width: 250px;
   height: 100%;
 }
 
 .kantu-header {
-  width: 100%;
+  width: 250px;
   height: 140px;
 }
 
 .top-bg {
-  width: 100%;
+  width: 250px;
   height: 100%;
   object-fit: cover;
 }
 
 .grid-section {
-  width: 100%;
+  width: 250px;
   padding: 0 10px;
   margin-top: -44px;
 }
 
 .grid-card-container {
-  width: 100%;
+  width: 230px;
   border-radius: 12px;
   position: relative;
   overflow: hidden;
@@ -108,8 +113,10 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  width: 230px;
   height: 96px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.95), #ffffff);
 }
 

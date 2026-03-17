@@ -16,8 +16,7 @@
     <div class="badge_wrapper">
       <div class="question_header_row">
         <image class="q_icon" src="/pkg_main/assets/img/wenhao.png"></image>
-        <!-- 这里应该显示之前的测试标题，或者简略信�?-->
-        <text class="question_title_text">一张图测你的“内在能量类型”！</text>
+        <text class="question_title_text">{{ quizTitle }}</text>
       </div>
     </div>
 
@@ -48,13 +47,24 @@ export default {
   data() {
     return {
       description: '',
-      quizId: ''
+      quizId: '',
+      quizTitle: ''
     }
   },
   onInit() {
+    if (this.$page && this.$page.query) {
+      const q = this.$page.query
+      if (q.description) this.description = q.description
+      if (q.quizId) this.quizId = String(q.quizId)
+      if (q.quizTitle) this.quizTitle = q.quizTitle
+    }
+
     console.info('KanTu Result Page Init', this.description)
     if (!this.description) {
       this.description = '暂无测试结果'
+    }
+    if (!this.quizTitle) {
+      this.quizTitle = '看图测评'
     }
   },
   goBack() {

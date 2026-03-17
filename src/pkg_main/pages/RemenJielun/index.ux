@@ -20,7 +20,6 @@
       <!-- 结论标题 -->
       <div class="result-title-container">
         <text class="result-main-title">{{resultTitle}}</text>
-        <text class="result-sub-title">{{testName}}</text>
       </div>
       <!-- 结论内容 -->
       <text class="result-text">{{resultText}}</text>
@@ -41,9 +40,7 @@
 
 <script>
 import router from '@system.router'
-import { workplaceTest } from '../../helper/JS/zhichang'
-import { emotionAssessmentHandler } from '../../helper/JS/qinggan'
-import { funTest } from '../../helper/JS/quwei'
+import { calcRemenResult } from '../../helper/JS/remenDataAdapter'
 
 export default {
   data() {
@@ -80,37 +77,22 @@ export default {
     const src = this.testSource
     const id = this.testId
     try {
-      if (src === 'qinggan') {
-        const res = emotionAssessmentHandler(id, indices)
-        if (res && res.result) {
-          this.resultTitle = res.result.title || ''
-          this.resultText = res.result.content || ''
-          return
-        }
-        this.resultText = (res && res.error) ? res.error : '结论获取失败'
-        return
-      }
-
-      if (src === 'zhichang') {
-        const scores = indices.map(function(idx) { return idx + 1 })
-        const res = workplaceTest(id, scores)
+      if (
+        src === 'xingge' ||
+        src === 'shiye' ||
+        src === 'aiqing' ||
+        src === 'quwei' ||
+        src === 'xinlizhuangtai' ||
+        src === 'yiyufengxian' ||
+        src === 'jiaolu'
+      ) {
+        const res = calcRemenResult(src, id, indices)
         if (res && res.success && res.data) {
           this.resultTitle = res.data.resultTitle || ''
-          this.resultText = res.data.resultContent || ''
+          this.resultText = res.data.resultText || ''
           return
         }
         this.resultText = (res && res.message) ? res.message : '结论获取失败'
-        return
-      }
-
-      if (src === 'quwei') {
-        const res = funTest(id, indices)
-        if (res && res.result) {
-          this.resultTitle = res.result.title || ''
-          this.resultText = res.result.content || ''
-          return
-        }
-        this.resultText = (res && res.error) ? res.error : '结论获取失败'
         return
       }
 
@@ -127,7 +109,12 @@ export default {
   retry() {
     router.replace({
       uri: '/pkg_main/pages/RemenDati',
-      params: { catTitle: this.testName, testName: this.testName }
+      params: {
+        catTitle: this.testSource || this.testName,
+        testName: this.testName,
+        testSource: this.testSource,
+        testId: String(this.testId)
+      }
     })
   },
   goHome() {
@@ -238,13 +225,13 @@ export default {
   flex-direction: column;
   position: relative;
   z-index: 1;
-  padding: 20px 16px 0 16px;
+  padding: 14px 16px 0 16px;
 }
 
 /* 结论 tag */
 .result-title-container {
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 .result-main-title {
   font-size: 14px;
@@ -252,11 +239,6 @@ export default {
   color: #1a1a1a;
   margin-bottom: 8px;
 }
-.result-sub-title {
-  font-size: 12px;
-  color: #888888;
-}
-
 /* 结论文字 */
 .result-text {
   font-size: 11px;

@@ -41,7 +41,7 @@
       <div class="question_img_wrapper">
         <image
           class="question_img"
-          src="https://cdn.shijinzhuang.com/quick/nycp/ktcp/{{ id }}{{ id > 15 ? '.' : '' }}.jpg"
+          src="{{ questionImage }}"
         ></image>
       </div>
 
@@ -92,7 +92,7 @@
 <script>
 import router from '@system.router'
 import prompt from '@system.prompt'
-import { imageQuizData } from '../../helper/kantu.js'
+import { imagePersonalityTest } from '../../helper/JS/tupianceshi'
 
 export default {
   data() {
@@ -114,28 +114,39 @@ export default {
   },
   initData() {
     const quizId = parseInt(this.id) || 1
-    this.quizItem = imageQuizData.find(item => item.id === quizId)
+    const testList = (imagePersonalityTest && imagePersonalityTest.testList) || []
+    this.quizItem = testList.find(item => item.id === quizId)
 
     if (this.quizItem) {
-      this.quizTitle = this.quizItem.title
+      this.quizTitle = this.quizItem.name
+      const opts = this.quizItem.options || {}
       this.currentQuestion = {
         question: this.quizItem.question,
-        options: this.quizItem.options
+        options: [
+          { label: 'A', text: opts.A || '' },
+          { label: 'B', text: opts.B || '' },
+          { label: 'C', text: opts.C || '' },
+          { label: 'D', text: opts.D || '' }
+        ]
       }
 
-      if (quizId === 3) {
-        this.questionImage = '/pkg_main/assets/img/3.png'
-      } else {
-        this.questionImage = '/pkg_main/assets/img/' + quizId + '.png'
-      }
+      this.questionImage = '/pkg_main/assets/img/ktcp/' + quizId + '.jpg'
     } else {
-      if (imageQuizData && imageQuizData.length > 0) {
-        this.quizItem = imageQuizData[0]
-        this.quizTitle = this.quizItem.title
+      if (testList.length > 0) {
+        this.quizItem = testList[0]
+        this.quizTitle = this.quizItem.name
+        const opts = this.quizItem.options || {}
         this.currentQuestion = {
           question: this.quizItem.question,
-          options: this.quizItem.options
+          options: [
+            { label: 'A', text: opts.A || '' },
+            { label: 'B', text: opts.B || '' },
+            { label: 'C', text: opts.C || '' },
+            { label: 'D', text: opts.D || '' }
+          ]
         }
+        this.id = String(this.quizItem.id)
+        this.questionImage = '/pkg_main/assets/img/ktcp/' + this.id + '.jpg'
       }
     }
   },
@@ -166,11 +177,8 @@ export default {
     const label = currentOption.label
 
     let resultDesc = ''
-    if (this.quizItem.conclusions) {
-      const conclusion = this.quizItem.conclusions.find(c => c.label === label)
-      if (conclusion) {
-        resultDesc = conclusion.description
-      }
+    if (this.quizItem.conclusion && this.quizItem.conclusion[label]) {
+      resultDesc = this.quizItem.conclusion[label]
     }
 
     if (!resultDesc) {
@@ -181,7 +189,8 @@ export default {
       uri: '/pkg_main/pages/KantuJielun',
       params: {
         description: resultDesc,
-        quizId: this.id
+        quizId: this.id,
+        quizTitle: this.quizTitle
       }
     })
   }
@@ -212,7 +221,7 @@ export default {
   top: 15px;
   left: 0;
   width: 100%;
-  height: 30px;
+  height: 44px;
   flex-direction: row;
   align-items: center;
   padding: 0 15px;
@@ -222,9 +231,10 @@ export default {
 
 .back_btn {
   position: absolute;
-  left: 15px;
-  width: 26px;
-  height: 26px;
+  left: 2px;
+  top: 16px;
+  width: 22px;
+  height: 22px;
   justify-content: center;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.5);
@@ -232,8 +242,8 @@ export default {
 }
 
 .back_icon {
-  width: 12px;
-  height: 12px;
+  width: 6px;
+  height: 10px;
   object-fit: contain;
 }
 

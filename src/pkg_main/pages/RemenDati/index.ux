@@ -51,9 +51,8 @@
 
 <script>
 import router from '@system.router'
-import { workplaceTest } from '../../helper/JS/zhichang'
-import { emotionAssessmentHandler } from '../../helper/JS/qinggan'
 import { funTest } from '../../helper/JS/quwei'
+import { getRemenQuestions } from '../../helper/JS/remenDataAdapter'
 
 const _ZHICHANG_TITLES = [
   '职场沟通力测评', '职场执行力测评', '职场责任心测评', '职场抗压能力测评',
@@ -73,6 +72,12 @@ const _QUWEI_TITLES = [
   '趣味·星座职场适配度测评', '趣味·奶茶人格测评', '趣味·电影偏好人格测评', '趣味·穿搭风格人格测评',
   '趣味·解压方式人格测评', '趣味·社交距离人格测评'
 ]
+
+const _XINLI_TITLE_SOURCE_MAP = {
+  '心理状态测试': 'xinlizhuangtai',
+  '抑郁风险评估': 'yiyufengxian',
+  '焦虑测试': 'jiaolu'
+}
 
 function findTestInfo(title) {
   let idx = _ZHICHANG_TITLES.indexOf(title)
@@ -105,12 +110,14 @@ export default {
     }
   },
   onInit() {
-    if (this.$page && this.$page.query) {
-      const q = this.$page.query
+    if (this.$page) {
+      const q = this.$page.query || this.$page.params || {}
       if (q.catTitle) this.catTitle = q.catTitle
       if (q.testName) this.testName = q.testName
+      if (q.testSource) this.testSource = q.testSource
+      if (q.testId) this.testId = parseInt(q.testId, 10)
     }
-    this.loadQuestions(this.testName || this.catTitle)
+    this.loadQuestions()
   },
   refreshView() {
     const idx = this.currentIdx
@@ -132,7 +139,26 @@ export default {
     this.txt3 = 'opt-text' + (ans[idx] === 3 ? ' opt-text-sel' : '')
     this.nextBtnText = (idx === this.questions.length - 1) ? '查看结论' : '下一题'
   },
-  loadQuestions(title) {
+  loadQuestions() {
+    const title = this.testName || this.catTitle
+    if (!this.testSource && title && _XINLI_TITLE_SOURCE_MAP[title]) {
+      this.testSource = _XINLI_TITLE_SOURCE_MAP[title]
+    }
+    if (!this.testId && this.testSource && _XINLI_TITLE_SOURCE_MAP[title]) {
+      this.testId = 1
+    }
+
+    const source = this.testSource
+    const id = this.testId
+
+    if (source && id) {
+      const qsByNewData = getRemenQuestions(source, id)
+      if (qsByNewData && qsByNewData.length > 0) {
+        this.setQuestions(qsByNewData)
+        return
+      }
+    }
+
     if (!title) return
     const info = findTestInfo(title)
     if (!info) return
@@ -141,11 +167,7 @@ export default {
     this.testId = info.id
 
     let res = null
-    if (info.source === 'zhichang') {
-      res = workplaceTest(info.id)
-    } else if (info.source === 'qinggan') {
-      res = emotionAssessmentHandler(info.id)
-    } else if (info.source === 'quwei') {
+    if (info.source === 'quwei') {
       res = funTest(info.id)
     }
 
@@ -202,7 +224,7 @@ export default {
 }
 .header-area {
   width: 250px;
-  height: 110px;
+  height: 130px;
   position: relative;
   flex-direction: column;
 }
@@ -219,7 +241,7 @@ export default {
   top: 0;
   left: 0;
   width: 250px;
-  height: 44px;
+  height: 54px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -232,6 +254,9 @@ export default {
   background-color: rgba(255, 255, 255, 0.3);
   align-items: center;
   justify-content: center;
+  position: relative;
+  left: -8px;
+  top: 8px;
 }
 .back-icon {
   width: 6px;
@@ -297,7 +322,7 @@ export default {
   color: #ff6420;
 }
 .q-text {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   color: #333333;
   line-height: 20px;

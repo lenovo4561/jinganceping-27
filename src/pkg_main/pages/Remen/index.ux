@@ -5,18 +5,11 @@
         <stack class="header-stack">
           <image class="top-bg" src="../../assets/img/jibu-bg.png"></image>
           <div class="tabs-container">
-            <div class="tab-item active">
-              <text class="tab-text active-text">性格</text>
-            </div>
-            <div class="tab-item">
-              <text class="tab-text">事业</text>
-            </div>
-            <div class="tab-item">
-              <text class="tab-text">爱情</text>
-            </div>
-            <div class="tab-item">
-              <text class="tab-text">趣味</text>
-            </div>
+            <block for="{{tabs}}">
+              <div class="{{'tab-item ' + (activeSource === $item.key ? 'active' : '')}}" onclick="switchTab($item.key)">
+                <text class="{{'tab-text ' + (activeSource === $item.key ? 'active-text' : '')}}">{{$item.title}}</text>
+              </div>
+            </block>
           </div>
         </stack>
       </list-item>
@@ -29,10 +22,10 @@
               <text class="item-title">{{$item.title}}</text>
               <div class="item-bottom">
                 <div class="item-tags">
-                  <text class="tag">性格</text>
+                  <text class="tag">{{$item.tag}}</text>
                   <text class="tag">自我测评</text>
                 </div>
-                <div class="btn-box" onclick="startTest($item.title)">
+                <div class="btn-box" onclick="startTest($item.id, $item.title)">
                   <text class="start-btn">开始测试</text>
                 </div>
               </div>
@@ -48,21 +41,36 @@
 
 <script>
 import router from '@system.router'
+import { getRemenTabs, getRemenListBySource } from '../../helper/JS/remenDataAdapter'
+
 export default {
   data() {
     return {
-      testList: [
-        { title: '星轨密码：你的内在能量倾向你的测试～', image: '' },
-        { title: '棱镜之下：你的真实性格底色', image: '' },
-        { title: '时光答卷：你的性格行为惯性', image: '' },
-        { title: '心灵拼图：你的隐性性格特质', image: '' }
-      ]
+      activeSource: 'xingge',
+      tabs: getRemenTabs(),
+      testList: []
     }
   },
-  startTest(title) {
+  onInit() {
+    this.refreshList()
+  },
+  refreshList() {
+    this.testList = getRemenListBySource(this.activeSource)
+  },
+  switchTab(source) {
+    if (!source || source === this.activeSource) return
+    this.activeSource = source
+    this.refreshList()
+  },
+  startTest(testId, testName) {
     router.push({
       uri: '/pkg_main/pages/RemenDati',
-      params: { catTitle: '职场沟通力测评', testName: '职场沟通力测评' }
+      params: {
+        catTitle: this.activeSource,
+        testName: testName,
+        testSource: this.activeSource,
+        testId: String(testId)
+      }
     })
   }
 }
