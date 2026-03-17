@@ -47,26 +47,32 @@
       "pages/Splash": {
         "component": "index"
       },
-      "pages/Webview": {
+      "pkg_main/pages/Webview": {
         "component": "index"
       },
-      "pages/Main": {
+      "pkg_main/pages/Main": {
         "component": "index"
       },
-      "pages/RemenDati": {
+      "pkg_main/pages/RemenDati": {
         "component": "index"
       },
-      "pages/RemenJielun": {
+      "pkg_main/pages/RemenJielun": {
         "component": "index"
       },
-      "pages/KantuDetail": {
+      "pkg_main/pages/KantuDetail": {
         "component": "index"
       },
-      "pages/KantuJielun": {
+      "pkg_main/pages/KantuJielun": {
         "component": "index"
       }
     }
   },
+  "subpackages": [
+    {
+      "name": "pkg_main",
+      "resource": "pkg_main"
+    }
+  ],
   "display": {
     "titleBarBackgroundColor": "#f2f2f2",
     "titleBarTextColor": "#414141",
@@ -76,26 +82,26 @@
         "titleBar": false,
         "menu": false
       },
-      "pages/Webview": {
+      "pkg_main/pages/Webview": {
         "titleBarText": ""
       },
-      "pages/Main": {
+      "pkg_main/pages/Main": {
         "titleBar": false,
         "menu": false
       },
-      "pages/RemenDati": {
+      "pkg_main/pages/RemenDati": {
         "titleBar": false,
         "menu": false
       },
-      "pages/RemenJielun": {
+      "pkg_main/pages/RemenJielun": {
         "titleBar": false,
         "menu": false
       },
-      "pages/KantuDetail": {
+      "pkg_main/pages/KantuDetail": {
         "titleBar": false,
         "menu": false
       },
-      "pages/KantuJielun": {
+      "pkg_main/pages/KantuJielun": {
         "titleBar": false,
         "menu": false
       }

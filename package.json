@@ -10,6 +10,7 @@
     "watch": "hap watch",
     "debug": "hap debug",
     "gen": "node ./scripts/gen/index.js",
+    "compress-logo": "node ./compress-logo.js",
     "precommit-msg": "echo '🚧 start pre-commit checks ...' && exit 0",
     "prettier": "node ./scripts/selfCloseInputTag.js && prettier --write \"src/**/*.{js,ux,less,scss,css}\"",
     "prettier-watcher": "onchange '**/*.md' \"src/**/**/*.{js,ux,less,scss,css}\" -- prettier --write changed"
