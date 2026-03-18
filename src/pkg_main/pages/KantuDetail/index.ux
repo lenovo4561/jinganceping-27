@@ -28,7 +28,7 @@
     <div class="content_card">
       <div class="progress_area">
         <text class="progress_text"
-          ><span style="color:#ff7500; font-weight:bold;">1</span>/2</text
+          ><span style="color:#ff7500; font-weight:bold;">1</span>/1</text
         >
         <div class="progress_bar_bg">
           <div class="progress_bar_fill"></div>
