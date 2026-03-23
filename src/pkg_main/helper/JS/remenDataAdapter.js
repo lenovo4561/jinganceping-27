@@ -11,28 +11,28 @@ const REMEN_SOURCE_CONFIG = {
     key: 'xingge',
     tab: '性格',
     tag: '性格',
-    imagePrefix: '/pkg_main/assets/img/cp/xg/',
+    imagePrefix: 'https://cdn.shijinzhuang.com/quick/jinancp/qwcp/xg/',
     data: personalityTestData
   },
   shiye: {
     key: 'shiye',
     tab: '事业',
     tag: '事业',
-    imagePrefix: '/pkg_main/assets/img/cp/sy/',
+    imagePrefix: 'https://cdn.shijinzhuang.com/quick/jinancp/qwcp/sy/',
     data: careerPersonalityTest
   },
   aiqing: {
     key: 'aiqing',
     tab: '爱情',
     tag: '爱情',
-    imagePrefix: '/pkg_main/assets/img/cp/aq/',
+    imagePrefix: 'https://cdn.shijinzhuang.com/quick/jinancp/qwcp/aq/',
     data: lovePersonalityTest
   },
   quwei: {
     key: 'quwei',
     tab: '趣味',
     tag: '趣味',
-    imagePrefix: '/pkg_main/assets/img/cp/qw/',
+    imagePrefix: 'https://cdn.shijinzhuang.com/quick/jinancp/qwcp/qw/',
     data: funQuizTest
   },
   xinlizhuangtai: {

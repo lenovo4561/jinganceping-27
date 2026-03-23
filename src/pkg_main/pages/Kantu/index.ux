@@ -42,11 +42,13 @@ export default {
   onInit() {
     const list = (imagePersonalityTest && imagePersonalityTest.testList) || []
     this.kantuList = list.map(function(item) {
+      const idNum = Number(item.id)
+      const imgSuffix = idNum >= 16 ? '..jpg' : '.jpg'
       return {
         id: item.id,
         title: item.name,
         count: String(Math.floor(Math.random() * 3000) + 7000),
-        image: '/pkg_main/assets/img/ktcp/' + String(item.id) + '.jpg'
+        image: 'https://cdn.shijinzhuang.com/quick/jinancp/ktcp/' + String(item.id) + imgSuffix
       }
     })
   },

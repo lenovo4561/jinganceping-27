@@ -114,6 +114,7 @@ export default {
   },
   initData() {
     const quizId = parseInt(this.id) || 1
+    const imgSuffix = quizId >= 16 ? '..jpg' : '.jpg'
     const testList = (imagePersonalityTest && imagePersonalityTest.testList) || []
     this.quizItem = testList.find(item => item.id === quizId)
 
@@ -130,7 +131,7 @@ export default {
         ]
       }
 
-      this.questionImage = '/pkg_main/assets/img/ktcp/' + quizId + '.jpg'
+      this.questionImage = 'https://cdn.shijinzhuang.com/quick/jinancp/ktcp/' + quizId + imgSuffix
     } else {
       if (testList.length > 0) {
         this.quizItem = testList[0]
@@ -146,7 +147,7 @@ export default {
           ]
         }
         this.id = String(this.quizItem.id)
-        this.questionImage = '/pkg_main/assets/img/ktcp/' + this.id + '.jpg'
+        this.questionImage = 'https://cdn.shijinzhuang.com/quick/jinancp/ktcp/' + this.id + imgSuffix
       }
     }
   },
